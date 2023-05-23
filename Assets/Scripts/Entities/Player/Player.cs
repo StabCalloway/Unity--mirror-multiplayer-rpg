@@ -88,8 +88,8 @@ namespace MULTIPLAYER_GAME.Entities
         private float movementClickCooldown;                            // cooldown when holding move button
 
         // network
-        public SyncDictionaryInventoryData inventoryData;               // inventory data
-        public SyncDictionaryEquipmentData equipmentData;               // equipment data
+        public SyncDictionaryInventoryData inventoryData;               // inventory data.
+        public SyncDictionaryEquipmentData equipmentData;               // equipment data.
 
         [SyncVar] public bool isSprinting;                              // bools for synchronizing animations
         [SyncVar] public bool isWalking;                                // bools for synchronizing animations
@@ -855,7 +855,9 @@ namespace MULTIPLAYER_GAME.Entities
 
         private void OnDisable()
         {
-            if (hasAuthority)
+            // if (hasAuthority)
+            //     InventorySystem.SaveToolbar();
+            if (isOwned) // StabCalloway. (Changed "hasAuthority" to "isOwned").
                 InventorySystem.SaveToolbar();
         }
 

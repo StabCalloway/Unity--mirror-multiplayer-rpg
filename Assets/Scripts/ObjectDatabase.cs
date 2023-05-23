@@ -199,7 +199,7 @@ namespace MULTIPLAYER_GAME.Systems
 
         #region //======            POSITION SYNC           ======\\
 
-        public class PositionMessage : MessageBase
+        public struct PositionMessage : NetworkMessage //StabCalloway. (Changed to NetworkMessage from MessageBase and Changed "public class" to "public struct").
         {
             public uint ID;
             public Vector3 position;
@@ -228,7 +228,8 @@ namespace MULTIPLAYER_GAME.Systems
             conn.Send(nmsg);
         }
 
-        private void ClientPositionMessageHandler(NetworkConnection conn, PositionMessage msg)
+        //        private void ClientPositionMessageHandler(NetworkConnection conn, PositionMessage msg)
+        private void ClientPositionMessageHandler(PositionMessage msg) // StabCalloway. (Removed "NetworkConnection conn" parameter).
         {
             Entity entity = GetEntity(msg.ID);
             if (entity && entity.gameObject)

@@ -11,20 +11,31 @@ namespace Mirror
         [InitializeOnLoadMethod]
         public static void AddDefineSymbols()
         {
-            HashSet<string> defines = new HashSet<string>(PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup).Split(';'))
+            string currentDefines = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
+            HashSet<string> defines = new HashSet<string>(currentDefines.Split(';'))
             {
                 "MIRROR",
-                "MIRROR_1726_OR_NEWER",
-                "MIRROR_3_0_OR_NEWER",
-                "MIRROR_3_12_OR_NEWER",
-                "MIRROR_4_0_OR_NEWER",
-                "MIRROR_5_0_OR_NEWER",
-                "MIRROR_6_0_OR_NEWER",
-                "MIRROR_7_0_OR_NEWER",
-                "MIRROR_8_0_OR_NEWER",
-                "MIRROR_9_0_OR_NEWER"
+                "MIRROR_57_0_OR_NEWER",
+                "MIRROR_58_0_OR_NEWER",
+                "MIRROR_65_0_OR_NEWER",
+                "MIRROR_66_0_OR_NEWER",
+                "MIRROR_2022_9_OR_NEWER",
+                "MIRROR_2022_10_OR_NEWER",
+                "MIRROR_70_0_OR_NEWER",
+                "MIRROR_71_0_OR_NEWER",
+                "MIRROR_73_OR_NEWER",
+                "MIRROR_78_OR_NEWER"
+                // Remove oldest when adding next month's symbol.
+                // Keep a rolling 12 months of symbols.
             };
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, string.Join(";", defines));
+
+            // only touch PlayerSettings if we actually modified it,
+            // otherwise it shows up as changed in git each time.
+            string newDefines = string.Join(";", defines);
+            if (newDefines != currentDefines)
+            {
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, newDefines);
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ using UnityEngine;
 
 public class SERVERNetworkManager : NetworkManager
 {
-    public class CreateCharacterMessage : MessageBase
+    public struct CreateCharacterMessage : NetworkMessage //StabCalloway. (Changed to NetworkMessage from MessageBase and Changed "public class" to "public struct").
     {
         public int ID;
         public string Name;
@@ -29,9 +29,23 @@ public class SERVERNetworkManager : NetworkManager
         NetworkServer.RegisterHandler<CreateCharacterMessage>(OnCreateCharacter);
     }
 
-    public override void OnClientConnect(NetworkConnection conn)
+    // public override void OnClientConnect(NetworkConnection conn)
+    // {
+    //     base.OnClientConnect(conn);
+
+    //     // load player nickname from PlayerPrefs and send connect request to server
+    //     CreateCharacterMessage characterMessage = new CreateCharacterMessage
+    //     {
+    //         ID = 0,
+    //         Name = PlayerPrefs.GetString("nickname")
+    //     };
+
+    //     conn.Send(characterMessage);
+    // }
+
+    public override void OnClientConnect() // StabCalloway. (Removed the NetworkConnection parameter).
     {
-        base.OnClientConnect(conn);
+        base.OnClientConnect(); // StabCalloway. (Removed "conn")
 
         // load player nickname from PlayerPrefs and send connect request to server
         CreateCharacterMessage characterMessage = new CreateCharacterMessage
@@ -40,12 +54,13 @@ public class SERVERNetworkManager : NetworkManager
             Name = PlayerPrefs.GetString("nickname")
         };
 
-        conn.Send(characterMessage);
+//        conn.Send(characterMessage);
+        NetworkClient.connection.Send(characterMessage); // StabCalloway. (Changed conn.Send to NetworkClient.connection.Send).
     }
 
     #endregion
 
-    private void OnCreateCharacter(NetworkConnection conn, CreateCharacterMessage createCharacterMessage)
+    private void OnCreateCharacter(NetworkConnectionToClient conn, CreateCharacterMessage createCharacterMessage) // StabCalloway. (Changed NetworkConnection to NetworkConnectionToClient).
     {
         Player player = Instantiate(playerPrefab).GetComponent<Player>();
         player.Name = createCharacterMessage.Name;                      // assing player name

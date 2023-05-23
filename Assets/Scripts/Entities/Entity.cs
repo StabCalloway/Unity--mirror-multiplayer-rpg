@@ -56,8 +56,11 @@ namespace MULTIPLAYER_GAME.Entities
 
         public delegate void OnDamageDelegate(uint attackerID, int value);       // event called when entity gets damaged
         public delegate void OnHealDelegate(int value);                         // event called when entity receives heal
-        [SyncEvent] public event OnDamageDelegate EventOnDamage;
-        [SyncEvent] public event OnHealDelegate EventOnHeal;
+        // [SyncEvent] public event OnDamageDelegate EventOnDamage;
+        // [SyncEvent] public event OnHealDelegate EventOnHeal;
+
+        public event OnDamageDelegate EventOnDamage; // StabCalloway. (Removed obsolete SyncEvent).
+        public event OnHealDelegate EventOnHeal; // StabCalloway. (Removed obsolete SyncEvent).
 
         [HideInInspector] public Animator m_Animator;                           // entity animator
 
