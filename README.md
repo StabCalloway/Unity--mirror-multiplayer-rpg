@@ -1,5 +1,5 @@
 # Multiplayer RPG 3D
-Unity Version: **2021.3.23f1**
+Unity Version: **2021.3.26f1**
 
 Networking: **Mirror Networking**
 
